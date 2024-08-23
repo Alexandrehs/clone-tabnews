@@ -7,6 +7,7 @@ async function query(queryObject) {
     user: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
     database: process.env.POSTGRES_DB,
+    ssl: setSSL(),
   });
   try {
     await client.connect();
@@ -22,3 +23,7 @@ async function query(queryObject) {
 export default {
   query: query,
 };
+
+function setSSL() {
+  process.env.NODE_ENV === "production" ? true : false;
+}
