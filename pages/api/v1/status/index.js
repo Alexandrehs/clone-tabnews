@@ -8,7 +8,7 @@ async function status(request, response) {
     text: "select count(*)::int from pg_stat_activity where datname = $1;",
     values: [process.env.POSTGRES_DB],
   });
-  console.log(updatedAt);
+
   response.status(200).json({
     update_at: updatedAt,
     dependencies: {
