@@ -1,16 +1,9 @@
 import { Client } from "pg";
 
 async function query(queryObject) {
-  const client = new Client({
-    host: process.env.POSTGRES_HOST,
-    port: process.env.POSTGRES_PORT,
-    user: process.env.POSTGRES_USER,
-    password: process.env.POSTGRES_PASSWORD,
-    database: process.env.POSTGRES_DB,
-    ssl: setSSL(),
-  });
+  let client;
   try {
-    await client.connect();
+    client = await getNewClient();
     const res = await client.query(queryObject);
     return res;
   } catch (error) {
@@ -20,8 +13,22 @@ async function query(queryObject) {
   }
 }
 
+async function getNewClient() {
+  const client = new Client({
+    host: process.env.POSTGRES_HOST,
+    port: process.env.POSTGRES_PORT,
+    user: process.env.POSTGRES_USER,
+    password: process.env.POSTGRES_PASSWORD,
+    database: process.env.POSTGRES_DB,
+    ssl: setSSL(),
+  });
+  await client.connect();
+  return client;
+}
+
 export default {
-  query: query,
+  query,
+  getNewClient,
 };
 
 function setSSL() {
