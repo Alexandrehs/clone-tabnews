@@ -26,11 +26,11 @@ async function getNewClient() {
   return client;
 }
 
+function setSSL() {
+  process.env.NODE_ENV === "production" ? true : false;
+}
+
 export default {
   query,
   getNewClient,
 };
-
-function setSSL() {
-  process.env.NODE_ENV === "production" ? true : false;
-}
