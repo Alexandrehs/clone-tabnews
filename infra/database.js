@@ -27,7 +27,11 @@ async function getNewClient() {
 }
 
 function setSSL() {
-  process.env.NODE_ENV === "production" ? true : false;
+  if (process.env.NODE_ENV === "production") {
+    return true;
+  }
+
+  return false;
 }
 
 export default {
